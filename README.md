@@ -19,18 +19,55 @@ Sistema para la gestión de proyectos y tareas colaborativas desarrollado con Sp
 
 ## Estructura del Proyecto
 
-El proyecto está organizado en los siguientes componentes principales:
+El proyecto está organizado en los siguientes paquetes y archivos principales (versión actual en el repositorio):
 
 ```
-src/main/java/dev/austre/sgpc/
-├── models/
-│   ├── Proyecto.java
-│   ├── Tarea.java
-│   ├── Comentario.java
-│   ├── Usuario.java
-│   ├── Rol.java
-│   └── Adjunto.java
-└── SGPCApplication.java
+src/
+├─ main/
+│  ├─ java/
+│  │  ├─ dev/
+│  │  │  ├─ austre/
+│  │  │  │  ├─ SGPCApplication.java
+│  │  │  │  └─ sgpc/
+│  │  │  │     ├─ models/
+│  │  │  │     │  ├─ ProyectoModel.java
+│  │  │  │     │  ├─ TareaModel.java
+│  │  │  │     │  ├─ ComentarioModel.java
+│  │  │  │     │  ├─ UsuarioModel.java
+│  │  │  │     │  ├─ RolModel.java
+│  │  │  │     │  └─ AdjuntoModel.java
+│  │  │  │     ├─ repositories/
+│  │  │  │     │  ├─ ProyectoRepository.java
+│  │  │  │     │  ├─ TareaRepository.java
+│  │  │  │     │  ├─ ComentarioRepository.java
+│  │  │  │     │  ├─ UsuarioRepository.java
+│  │  │  │     │  ├─ RolRepository.java
+│  │  │  │     │  └─ AdjuntoRepository.java
+│  │  │  │     ├─ services/
+│  │  │  │     │  ├─ ProyectoService.java
+│  │  │  │     │  ├─ TareaService.java
+│  │  │  │     │  ├─ ComentarioService.java
+│  │  │  │     │  ├─ UsuarioService.java
+│  │  │  │     │  ├─ RolService.java
+│  │  │  │     │  ├─ AdjuntoService.java
+│  │  │  │     │  └─ impl/
+│  │  │  │     │     ├─ ProyectoServiceImpl.java
+│  │  │  │     │     ├─ TareaServiceImpl.java
+│  │  │  │     │     ├─ ComentarioServiceImpl.java
+│  │  │  │     │     ├─ UsuarioServiceImpl.java
+│  │  │  │     │     ├─ RolServiceImpl.java
+│  │  │  │     │     └─ AdjuntoServiceImpl.java
+│  │  │  │     └─ controllers/
+│  │  │  │        ├─ ProyectoController.java
+│  │  │  │        ├─ TareaController.java
+│  │  │  │        ├─ ComentarioController.java
+│  │  │  │        ├─ UsuarioController.java
+│  │  │  │        ├─ RolController.java
+│  │  │  │        └─ AdjuntoController.java
+│  └─ resources/
+│     ├─ application.properties
+│     └─ (otros recursos estáticos o plantillas si aplica)
+└─ pom.xml
 ```
 
 ## Entidades Principales
