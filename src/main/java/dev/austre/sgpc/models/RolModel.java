@@ -1,8 +1,16 @@
 package dev.austre.sgpc.models;
 
-import jakarta.persistence.*;
-import lombok.Data;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import lombok.Data;
 
 @Data
 @Entity
@@ -13,6 +21,7 @@ public class RolModel {
     private Long idRol;
     private String nombre;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "rolUsuario")
     private List<UsuarioModel> usuarios;
 }
