@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/adjuntos")
+@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class AdjuntoController {
     private final AdjuntoService adjuntoService;

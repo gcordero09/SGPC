@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/comentarios")
+@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class ComentarioController {
     private final ComentarioService comentarioService;

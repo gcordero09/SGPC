@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/tareas")
+@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class TareaController {
     private final TareaService tareaService;

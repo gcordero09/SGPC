@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyectos | SGPC</title>
+    <!DOCTYPE html>
+    <html lang="es">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Proyectos | SGPC</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+
+<body style="display: block; padding-top: 2rem;">
+    <div style="max-width: 1400px; margin: 0 auto; padding: 0 2rem;">
+        <div class="header-actions">
+            <h1>Mis Proyectos</h1>
+            <button onclick="toggleCreateProjectForm()" class="btn" style="width: auto; padding: 0.75rem 1.5rem;">+
+                Nuevo Proyecto</button>
+        </div>
+
+        <div class="master-detail-container"
+            style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start;">
+            <!-- Master: Project List -->
+            <div id="projectGrid" class="project-grid" style="grid-template-columns: 1fr; gap: 1rem;">
+                <!-- Projects will be loaded here -->
+                <div class="empty-state">
+                    Cargando proyectos...
+                </div>
+            </div>
+
+            <!-- Detail: Project Tasks -->
+            <div id="projectTasksPanel" class="card" style="display: none; position: sticky; top: 2rem;">
+                <div class="section-header" style="margin-bottom: 1.5rem;">
+                    <div>
+                        <h2 id="panelProjectTitle" style="margin-bottom: 0.5rem;">Selecciona un proyecto</h2>
+                        <span id="panelProjectStatus" class="project-status" style="display: none;"></span>
+                    </div>
+                </div>
+
+                <div class="tasks-section">
+                    <div class="section-header"
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: none;">
+                        <h3>Tareas</h3>
+                        <button onclick="toggleCreateTaskForm()" class="btn"
+                            style="width: auto; padding: 0.5rem 1rem; font-size: 0.9rem;">+ Nueva Tarea</button>
+                    </div>
+
+                    <!-- Create Task Form (Hidden by default) -->
+                    <div id="createTaskContainer"
+                        style="display: none; background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem;">
+                        <form id="createTaskForm">
+                            <input type="hidden" id="currentProjectId">
+                            <div class="form-group">
+                                <input type="text" id="newTaskTitle" placeholder="Título de la tarea" required
+                                    style="margin-bottom: 0.5rem;">
+                            </div>
+                            <div class="form-group">
+                                <textarea id="newTaskDesc" placeholder="Descripción" required
+                                    style="min-height: 60px; margin-bottom: 0.5rem;"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label style="font-size: 0.8rem;">Fecha Límite:</label>
+                                <input type="date" id="newTaskDueDate" required>
+                            </div>
+                            <div style="display: flex; gap: 0.5rem; justify-content: flex-end;">
+                                <button type="button" onclick="toggleCreateTaskForm()" class="btn secondary"
+                                    style="width: auto;">Cancelar</button>
+                                <button type="submit" class="btn" style="width: auto;">Guardar Tarea</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div id="panelTaskList" style="max-height: 500px; overflow-y: auto;">
+                        <div class="empty-state" style="padding: 2rem;">Selecciona un proyecto para ver sus tareas</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Project Modal (Restored/Kept if needed, or we can use the form toggle approach) -->
+    <!-- For now, let's assume the "New Project" button navigates to index.html or opens a modal. 
+         The previous code had a link to index.html. I'll keep it as a link for now or restore the modal if it was there.
+         Wait, the previous code had <a href="index.html" ...>. I changed it to a button. 
+         Let's revert to the link for now to minimize scope creep. -->
+
+    <script>
+        function toggleCreateProjectForm() {
+            window.location.href = 'index.html';
+        }
+    </script>
+
+    <script src="js/projects.js"></script>
+</body>
+
+</html>

@@ -5,6 +5,8 @@ import lombok.Data;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Data
 @Entity
 @Table(name = "proyectos")
@@ -18,6 +20,7 @@ public class ProyectoModel {
     private Date fechaFin;
     private String estatus;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "proyecto", cascade = CascadeType.ALL)
     private List<TareaModel> tareas;
 }

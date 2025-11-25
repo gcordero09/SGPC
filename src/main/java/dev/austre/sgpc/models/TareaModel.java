@@ -5,6 +5,8 @@ import lombok.Data;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Data
 @Entity
 @Table(name = "tareas")
@@ -17,6 +19,7 @@ public class TareaModel {
     private Date fechaLimite;
     private String estatus;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "proyecto_id")
     private ProyectoModel proyecto;
