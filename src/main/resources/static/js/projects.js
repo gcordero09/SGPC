@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             grid.innerHTML = `
                 <div class="empty-state">
                     <p>No hay proyectos creados aún.</p>
-                    <a href="index.html" class="btn" style="width: auto; margin-top: 1rem; display: inline-block;">Crear el primero</a>
+                    <a href="proyectos.html" class="btn" style="width: auto; margin-top: 1rem; display: inline-block;">Crear el primero</a>
                 </div>
             `;
             return;

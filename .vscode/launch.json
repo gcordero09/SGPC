@@ -1,0 +1,11 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "SGPCApplication",
+            "request": "launch",
+            "mainClass": "dev.austre.sgpc.SGPCApplication",
+            "projectName": "sgpc"
+        }
+    ]
+}
