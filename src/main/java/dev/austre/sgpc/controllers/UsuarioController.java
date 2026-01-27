@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/usuarios")
@@ -46,5 +47,12 @@ public class UsuarioController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         usuarioService.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<UsuarioModel> login(@RequestBody UsuarioModel usuario) {
+        Optional<UsuarioModel> usuarioOptional = usuarioService.findByEmailAndPassword(usuario.getEmail(),
+                usuario.getPassword());
+        return usuarioOptional.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 }

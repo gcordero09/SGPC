@@ -15,9 +15,9 @@
     <div class="container">
         <div class="card">
             <h1>Bienvenido a SGPC</h1>
-            <p class="subtitle">Sistema Gestor de Proyectos</p>
+            <p class="subtitle">Sistema Gestor de Proyectos Colaborativo</p>
 
-            <form action="html/dashboard.html">
+            <form id="loginForm">
                 <div class="form-group">
                     <label for="email">Correo electrónico</label>
                     <input type="email" id="email" placeholder="nombre@ejemplo.com" required>
@@ -28,15 +28,20 @@
                     <input type="password" id="password" placeholder="Ingresa tu contraseña" required>
                 </div>
 
+                <div id="errorMessage"
+                    style="color: red; margin-bottom: 1rem; display: none; font-size: 0.9rem; text-align: center;">
+                </div>
+
                 <button type="submit" class="btn">Ingresar</button>
             </form>
 
-            <p style="text-align: center; margin-top: 1.5rem; color: var(--text-muted); font-size: 0.9rem;">
+            <!-- <p style="text-align: center; margin-top: 1.5rem; color: var(--text-muted); font-size: 0.9rem;">
                 ¿No tienes cuenta? <a href="#"
                     style="color: var(--primary-color); text-decoration: none; font-weight: 500;">Regístrate aquí</a>
-            </p>
+            </p> -->
         </div>
     </div>
 </body>
+<script src="js/login.js"></script>
 
 </html>

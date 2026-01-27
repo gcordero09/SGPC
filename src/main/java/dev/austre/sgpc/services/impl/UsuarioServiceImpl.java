@@ -35,4 +35,9 @@ public class UsuarioServiceImpl implements UsuarioService {
     public void deleteById(Long id) {
         usuarioRepository.deleteById(id);
     }
+
+    @Override
+    public Optional<UsuarioModel> findByEmailAndPassword(String email, String password) {
+        return usuarioRepository.findByEmailAndPassword(email, password);
+    }
 }

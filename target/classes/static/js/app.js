@@ -3,7 +3,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Set default dates
     const today = new Date().toISOString().split('T')[0];
-    document.getElementById('fechaInicio').value = today;
+
+    // Initialize Flatpickr
+    flatpickr("#fechaInicio", {
+        locale: "es",
+        dateFormat: "Y-m-d",
+        altInput: true,
+        altFormat: "d/m/Y",
+        defaultDate: today,
+        allowInput: true
+    });
+
+    flatpickr("#fechaFin", {
+        locale: "es",
+        dateFormat: "Y-m-d",
+        altInput: true,
+        altFormat: "d/m/Y",
+        allowInput: true
+    });
+
+    // document.getElementById('fechaInicio').value = today; // Handled by defaultDate
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -40,7 +59,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 showNotification('Proyecto creado exitosamente', 'success');
                 form.reset();
                 // Reset date to today after reset
-                document.getElementById('fechaInicio').value = today;
+                form.reset();
+                // Reset date to today after reset (re-init or update flatpickr if needed, but form reset clears inputs)
+                // Flatpickr instances need to be cleared or reset manually if not bound to form reset entirely
+                const fechaInicioInstance = document.querySelector("#fechaInicio")._flatpickr;
+                if (fechaInicioInstance) {
+                    fechaInicioInstance.setDate(today);
+                }
+                const fechaFinInstance = document.querySelector("#fechaFin")._flatpickr;
+                if (fechaFinInstance) {
+                    fechaFinInstance.clear();
+                }
             } else {
                 showNotification('Error al crear el proyecto', 'error');
             }

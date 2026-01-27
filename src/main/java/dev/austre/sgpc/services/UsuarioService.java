@@ -12,4 +12,6 @@ public interface UsuarioService {
     UsuarioModel save(UsuarioModel usuario);
 
     void deleteById(Long id);
+
+    Optional<UsuarioModel> findByEmailAndPassword(String email, String password);
 }

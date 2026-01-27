@@ -82,10 +82,19 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const project = await response.json();
 
                 // Update header info
+                // Update header info
                 document.getElementById('panelProjectTitle').textContent = project.nombre;
-                const statusSpan = document.getElementById('panelProjectStatus');
-                statusSpan.textContent = project.estatus;
-                statusSpan.style.display = 'inline-block';
+
+                const statusContainer = document.getElementById('panelProjectStatus');
+                statusContainer.style.display = 'inline-block';
+                statusContainer.innerHTML = `
+                    <select onchange="updateProjectStatus(${project.id}, this.value)" class="status-select ${project.estatus === 'COMPLETADO' ? 'success' : ''}">
+                        <option value="ACTIVO" ${project.estatus === 'ACTIVO' ? 'selected' : ''}>ACTIVO</option>
+                        <option value="PENDIENTE" ${project.estatus === 'PENDIENTE' ? 'selected' : ''}>PENDIENTE</option>
+                        <option value="COMPLETADO" ${project.estatus === 'COMPLETADO' ? 'selected' : ''}>COMPLETADO</option>
+                        <option value="CANCELADO" ${project.estatus === 'CANCELADO' ? 'selected' : ''}>CANCELADO</option>
+                    </select>
+                `;
 
                 // Render tasks from the project object
                 if (project.tareas) {
@@ -116,7 +125,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <div class="task-meta">Vence: ${formatDate(task.fechaLimite)}</div>
                     <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 0.25rem;">${escapeHtml(task.descripcion)}</p>
                 </div>
-                <span class="project-status" style="font-size: 0.7rem;">${escapeHtml(task.estatus)}</span>
+                <select onchange="updateTaskStatus(${task.id}, this.value)" class="status-select sm ${task.estatus === 'COMPLETADO' ? 'success' : ''}">
+                    <option value="PENDIENTE" ${task.estatus === 'PENDIENTE' ? 'selected' : ''}>PENDIENTE</option>
+                    <option value="EN_PROGRESO" ${task.estatus === 'EN_PROGRESO' ? 'selected' : ''}>EN PROGRESO</option>
+                    <option value="COMPLETADO" ${task.estatus === 'COMPLETADO' ? 'selected' : ''}>COMPLETADO</option>
+                </select>
             </div>
         `).join('');
     }
@@ -146,7 +159,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                 // Reset form and reload tasks
                 document.getElementById('newTaskTitle').value = '';
                 document.getElementById('newTaskDesc').value = '';
-                document.getElementById('newTaskDueDate').value = '';
+                // document.getElementById('newTaskDueDate').value = ''; // Flatpickr handling below
+                const datePicker = document.querySelector("#newTaskDueDate")._flatpickr;
+                if (datePicker) {
+                    datePicker.clear();
+                }
                 toggleCreateTaskForm(); // Hide form
                 loadTasks(projectId);
             } else {
@@ -181,6 +198,85 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function formatDate(dateString) {
         if (!dateString) return 'N/A';
-        return new Date(dateString).toLocaleDateString();
+        const date = new Date(dateString);
+        // Add timezone offset correction if necessary, but usually YYYY-MM-DD is parsed as UTC midnight
+        // and displayed in local time, which might shift it back a day.
+        // For simplicity and to match commonly expected "database date", let's treat it as UTC components.
+        const day = String(date.getUTCDate()).padStart(2, '0');
+        const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+        const year = date.getUTCFullYear();
+        return `${day}/${month}/${year}`;
     }
+
+    return `${day}/${month}/${year}`;
+}
+
+    // --- Status Updates ---
+
+    window.updateProjectStatus = async function (projectId, newStatus) {
+        try {
+            // Fetch current project data first to avoid overwriting other fields
+            const getResponse = await fetch(`${API_BASE_URL}/api/proyectos/${projectId}`);
+            if (!getResponse.ok) throw new Error('Failed to fetch project');
+            const project = await getResponse.json();
+
+            project.estatus = newStatus;
+
+            const updateResponse = await fetch(`${API_BASE_URL}/api/proyectos/${projectId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(project)
+            });
+
+            if (updateResponse.ok) {
+                // Determine API URL (re-declared here or accessible from closure if renderProjects is refreshed)
+                // Ideally reload projects grid if visible, but we are in the panel.
+                // Maybe just show notification?
+                // Reloading everything to be safe and update UI colors if needed
+                const gridResponse = await fetch(`${API_BASE_URL}/api/proyectos`);
+                if (gridResponse.ok) renderProjects(await gridResponse.json());
+            } else {
+                alert('Error al actualizar estado del proyecto');
+            }
+        } catch (error) {
+            console.error('Error updating project status:', error);
+            alert('Error al actualizar estado');
+        }
+    };
+
+window.updateTaskStatus = async function (taskId, newStatus) {
+    try {
+        const getResponse = await fetch(`${API_BASE_URL}/api/tareas/${taskId}`);
+        if (!getResponse.ok) throw new Error('Failed to fetch task');
+        const task = await getResponse.json();
+
+        task.estatus = newStatus;
+
+        const updateResponse = await fetch(`${API_BASE_URL}/api/tareas/${taskId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(task)
+        });
+
+        if (updateResponse.ok) {
+            // Refresh tasks panel
+            const currentProjectId = document.getElementById('currentProjectId').value;
+            if (currentProjectId) loadTasks(currentProjectId);
+        } else {
+            alert('Error al actualizar estado de la tarea');
+        }
+    } catch (error) {
+        console.error('Error updating task status:', error);
+        alert('Error al actualizar estado');
+    }
+};
+
+// Initialize Flatpickr for Task creation
+flatpickr("#newTaskDueDate", {
+    locale: "es",
+    dateFormat: "Y-m-d",
+    altInput: true,
+    altFormat: "d/m/Y",
+    allowInput: true
+});
 });
