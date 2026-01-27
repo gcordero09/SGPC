@@ -208,8 +208,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         return `${day}/${month}/${year}`;
     }
 
-    return `${day}/${month}/${year}`;
-}
 
     // --- Status Updates ---
 
@@ -244,39 +242,39 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     };
 
-window.updateTaskStatus = async function (taskId, newStatus) {
-    try {
-        const getResponse = await fetch(`${API_BASE_URL}/api/tareas/${taskId}`);
-        if (!getResponse.ok) throw new Error('Failed to fetch task');
-        const task = await getResponse.json();
+    window.updateTaskStatus = async function (taskId, newStatus) {
+        try {
+            const getResponse = await fetch(`${API_BASE_URL}/api/tareas/${taskId}`);
+            if (!getResponse.ok) throw new Error('Failed to fetch task');
+            const task = await getResponse.json();
 
-        task.estatus = newStatus;
+            task.estatus = newStatus;
 
-        const updateResponse = await fetch(`${API_BASE_URL}/api/tareas/${taskId}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(task)
-        });
+            const updateResponse = await fetch(`${API_BASE_URL}/api/tareas/${taskId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(task)
+            });
 
-        if (updateResponse.ok) {
-            // Refresh tasks panel
-            const currentProjectId = document.getElementById('currentProjectId').value;
-            if (currentProjectId) loadTasks(currentProjectId);
-        } else {
-            alert('Error al actualizar estado de la tarea');
+            if (updateResponse.ok) {
+                // Refresh tasks panel
+                const currentProjectId = document.getElementById('currentProjectId').value;
+                if (currentProjectId) loadTasks(currentProjectId);
+            } else {
+                alert('Error al actualizar estado de la tarea');
+            }
+        } catch (error) {
+            console.error('Error updating task status:', error);
+            alert('Error al actualizar estado');
         }
-    } catch (error) {
-        console.error('Error updating task status:', error);
-        alert('Error al actualizar estado');
-    }
-};
+    };
 
-// Initialize Flatpickr for Task creation
-flatpickr("#newTaskDueDate", {
-    locale: "es",
-    dateFormat: "Y-m-d",
-    altInput: true,
-    altFormat: "d/m/Y",
-    allowInput: true
-});
+    // Initialize Flatpickr for Task creation
+    flatpickr("#newTaskDueDate", {
+        locale: "es",
+        dateFormat: "Y-m-d",
+        altInput: true,
+        altFormat: "d/m/Y",
+        allowInput: true
+    });
 });
